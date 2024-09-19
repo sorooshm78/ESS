@@ -1,5 +1,5 @@
-# srs
-session record server
+# ESS
+Echo SIP server
 
 ## Required
 ### Install pkg-config
