@@ -6,18 +6,9 @@ using namespace pj;
 
 bool isShutdown = false;
 
-/*
- * The log level conventions:
- *  - 0: fatal error
- *  - 1: error
- *  - 2: warning
- *  - 3: info
- *  - 4: debug
- *  - 5: trace
- *  - 6: more detailed trace
-*/
+
 enum loglevel{
-    FATAL_ERROR,
+    FATAL_ERROR = 0,
     ERROR,
     WARNING,
     INFO,
@@ -106,8 +97,16 @@ void signalCallbackHandler(int signum) {
     isShutdown = true;
 }
 
-int main()
-{
+int main(int argc, char* argv[]) {
+    if (argc != 4) {
+        std::cerr << "Usage: " << argv[0] << " <SIP_Server> <user> <listen_port>" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    const std::string sip_server = argv[1];
+    const std::string user = argv[2];
+	const int listen_port = std::stoi(argv[3]);
+    
     Endpoint endpoint;
 
     endpoint.libCreate();
@@ -120,7 +119,7 @@ int main()
 
     // Create SIP transport. Error handling sample is shown
     TransportConfig transportConfig;
-    transportConfig.port = 6060;
+    transportConfig.port = listen_port;
     try {
         endpoint.transportCreate(PJSIP_TRANSPORT_UDP, transportConfig);
     } catch (Error &err) {
@@ -134,8 +133,8 @@ int main()
 
     // Configure an AccountConfig
     AccountConfig accountConfig;
-    accountConfig.idUri = "sip:1000@192.168.228.130:5060";
-    accountConfig.regConfig.registrarUri = "sip:192.168.228.130:5060";
+    accountConfig.idUri =  "sip:" + user + "@" + sip_server;
+    accountConfig.regConfig.registrarUri = "sip:" + sip_server;
 
     // Create the account
     MyAccount *account = new MyAccount;

@@ -27,5 +27,5 @@ make install
 
 ## TODO
 - [ ] Dockerize project  
-- [ ] Get address of SIP proxy from user input
-- [ ] Get user number from use input
+- [x] Get address of SIP proxy from user input
+- [x] Get user number from use input
