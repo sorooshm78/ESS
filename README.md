@@ -24,3 +24,8 @@ make clean
 make
 make install
 ```
+
+## TODO
+- [ ] Dockerize project  
+- [ ] Get address of SIP proxy from user input
+- [ ] Get user number from use input
